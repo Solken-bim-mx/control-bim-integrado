@@ -90,11 +90,11 @@
           </div>
           <div class="metric">
             <dt class="metric__label">Zapatas validadas Revit = OPUS</dt>
-            <dd class="metric__value metric__value--verified">38</dd>
+            <dd class="metric__value metric__value--verified">39</dd>
           </div>
           <div class="metric">
-            <dt class="metric__label">Conceptos auditados</dt>
-            <dd class="metric__value">20</dd>
+            <dt class="metric__label">Conceptos auditados (cimentación)</dt>
+            <dd class="metric__value">36</dd>
           </div>
         </dl>
       </div>
@@ -129,8 +129,8 @@
             </div>
             <div class="timeline__item">
               <div class="timeline__dot"></div>
-              <p class="timeline__phase">Cimentación</p>
-              <p class="timeline__desc">Auditoría cruzada de avance real contra modelo y presupuesto.</p>
+              <p class="timeline__phase">Cimentación — capítulo cerrado</p>
+              <p class="timeline__desc">36 conceptos auditados, 39 zapatas validadas Revit = OPUS, presupuesto y cronograma alineados con datos reales de campo.</p>
             </div>
             <div class="timeline__item">
               <div class="timeline__dot"></div>
@@ -258,7 +258,7 @@
                 <span class="level__tag">Confirmado</span>
               </div>
               <p class="level__body">
-                38 zapatas en Revit coinciden con OPUS, incluyendo detalle de acero de refuerzo.
+                39 zapatas en Revit coinciden con OPUS, incluyendo detalle de acero de refuerzo.
               </p>
             </div>
 
@@ -281,6 +281,69 @@
               </div>
               <p class="level__body">
                 4 conceptos de cimentación separados en matrices de recursos propias — evita que actualizar el acero real de un frente contamine en silencio el presupuesto de los demás.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <p class="section__kicker">Capítulo de cimentación — cierre (2026-09-20)</p>
+          <p class="timeline__intro">
+            Se auditaron los 36 conceptos del capítulo de cimentación ($876,792.65 MXN) directamente contra
+            OPUS y MS Project en vivo, vía MCP. Estos son los hallazgos que se incorporan al cierre.
+          </p>
+          <div class="levels">
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Resina epóxica en juntas frías</h3>
+                <span class="level__tag">Confirmado</span>
+              </div>
+              <p class="level__body">
+                3 conceptos nuevos: frente principal (5 uniones, ejes 1-2/3-4/3-5/3-6/6-7, 3.36 m²),
+                frente secundario (3 uniones, ejes 7-7´/7´-8/7-8, 0.80 m²) y eje 4 (verticales 3-4/3-5/3-6, 0.64 m²).
+                P.U. $260.53/m², total $1,250.54 MXN — recurso Fester Epoxine 200 dado de alta en catálogo.
+              </p>
+            </div>
+
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Contratrabes principales</h3>
+                <span class="level__tag">Confirmado</span>
+              </div>
+              <p class="level__body">
+                Eje 1-7: 152.80 m, $344,638.87 MXN. Eje 7-8: 40.12 m, $69,584.13 MXN — las juntas concentran
+                el mayor costo unitario de todo el capítulo. Una revisión de precio unitario en este concepto
+                evitó una "corrección" de $79,622 MXN que resultó ser un error de cálculo del asistente, no del presupuesto.
+              </p>
+            </div>
+
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Diferencias de criterio, cerradas</h3>
+                <span class="level__tag">Confirmado</span>
+              </div>
+              <p class="level__body">
+                3 diferencias entre frente principal y secundario, detectadas en la auditoría de rendimientos
+                de los 36 conceptos, cerradas como diferencias de criterio justificadas por geometría de obra
+                (no errores) — con evidencia de plano.
+              </p>
+            </div>
+
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Verificación cruzada en vivo</h3>
+                <span class="level__tag">Confirmado</span>
+              </div>
+              <p class="level__body">
+                Al cerrar el capítulo, el cruce automatizado contra OPUS y MS Project en vivo detectó dos
+                ajustes frente a lo reportado antes: el conteo real de zapatas es 39 (no 38), y ninguna tarea
+                del cronograma aparece hoy marcada como crítica — a diferencia de la ruta crítica descrita en
+                una revisión previa. Es exactamente el tipo de verificación cruzada que este sistema está
+                diseñado para hacer, y por eso se publica el dato corregido en vez del original.
               </p>
             </div>
           </div>
@@ -482,11 +545,11 @@
           <div class="metric-grid metric-grid--wide">
             <div class="metric">
               <p class="metric__label">Conceptos auditados</p>
-              <p class="metric__value">20</p>
+              <p class="metric__value">36</p>
             </div>
             <div class="metric">
               <p class="metric__label">Presupuesto activo (OPUS)</p>
-              <p class="metric__value metric__value--copper">$652,292 <span class="metric__unit">MXN</span></p>
+              <p class="metric__value metric__value--copper">$876,792.65 <span class="metric__unit">MXN</span></p>
             </div>
             <div class="metric">
               <p class="metric__label">Fuentes cruzadas por sesión</p>
