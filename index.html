@@ -181,6 +181,63 @@
         </div>
 
         <div class="section-block">
+          <p class="section__kicker">Cómo se conectan las capas</p>
+          <div class="levels">
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Nivel skill</h3>
+              </div>
+              <p class="level__body">
+                Claude recibe instrucciones en lenguaje natural y las traduce en operaciones
+                concretas sobre cada herramienta: consulta partidas en OPUS, lee elementos
+                del modelo en Revit, verifica avance en MS Project. El skill define qué
+                preguntar y cómo interpretar la respuesta.
+              </p>
+            </div>
+
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Nivel script</h3>
+              </div>
+              <p class="level__body">
+                Scripts de Dynamo extraen parámetros de elementos del modelo Revit;
+                scripts de Python o Node.js consultan la base SQL de OPUS y exportan
+                datos de MS Project. Cada script opera sobre una fuente específica
+                y entrega datos estructurados al siguiente nivel.
+              </p>
+            </div>
+
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Nivel MCP</h3>
+              </div>
+              <p class="level__body">
+                Servidores MCP propios — uno por herramienta (Revit, OPUS, MS Project,
+                Power BI) — exponen las operaciones de cada capa como herramientas
+                accesibles en tiempo real. El agente los orquesta sin intervención manual:
+                extrae, cruza y valida datos entre las cinco capas en una sola sesión.
+              </p>
+            </div>
+
+            <div class="level">
+              <div class="level__dot"></div>
+              <div class="level__head">
+                <h3 class="level__title">Nivel API</h3>
+              </div>
+              <p class="level__body">
+                Una API REST propia unifica el acceso a todas las capas desde un único
+                punto de entrada. Permite que Power BI, herramientas externas o
+                flujos automatizados consulten datos del proyecto sin depender de
+                sesiones interactivas — el sistema responde, no solo informa.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
           <p class="section__kicker">Tres niveles de capacidad</p>
           <div class="levels">
             <div class="level">
