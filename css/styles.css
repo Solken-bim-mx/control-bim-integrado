@@ -873,3 +873,94 @@ body {
     left: 0;
   }
 }
+/* ── Sección Descargas ─────────────────────────────────────────────────────── */
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6, 2rem);
+  margin-block: var(--space-6, 2rem);
+}
+
+.download-card {
+  background: var(--color-surface, #1a1a1a);
+  border: 1px solid rgba(201, 124, 75, 0.2);
+  border-radius: 8px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.2s;
+}
+
+.download-card:hover {
+  border-color: var(--color-copper, #C97C4B);
+}
+
+.download-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.download-card__tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--color-copper, #C97C4B);
+  background: rgba(201, 124, 75, 0.1);
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.download-card__price {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text, #e8e2da);
+}
+
+.download-card__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-text, #e8e2da);
+  margin: 0;
+}
+
+.download-card__desc {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-muted, #9a9088);
+  margin: 0;
+}
+
+.download-card__includes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.download-card__includes li {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #9a9088);
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.download-card__includes li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--color-copper, #C97C4B);
+}
+
+.download-card__btn {
+  margin-top: auto;
+  text-align: center;
+}
