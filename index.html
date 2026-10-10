@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Control BIM integrado — Un solo modelo, un solo dato, cero desfases</title>
-  <meta name="description" content="Sistema de control BIM integrado que conecta modelo, presupuesto, cronograma y avance de obra en una sola fuente de verdad." />
+  <title>Solken — Control de obra que detecta errores antes de que te cuesten</title>
+  <meta name="description" content="Cuando el modelo, el presupuesto y el cronograma no se hablan entre sí, los errores llegan tarde. Solken los conecta y los detecta antes de que el daño sea irreversible." />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Control BIM integrado" />
-  <meta property="og:description" content="Un modelo BIM. Un solo dato verificado. Cero desfases entre obra y oficina." />
+  <meta property="og:title" content="Solken — Control de obra en tiempo real" />
+  <meta property="og:description" content="Las obras se salen de presupuesto cuando los datos no se hablan entre sí. Solken los conecta y detecta lo que no cuadra antes de que llegue en la cuenta final." />
   <meta property="og:image" content="https://solken-bim-mx.github.io/control-bim-integrado/assets/img/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -61,18 +61,18 @@
       </div>
 
       <div class="hero__content container">
-        <p class="eyebrow">Modelo · Presupuesto · Cronograma · Avance</p>
+        <p class="eyebrow">Sistema de gestión para proyectos de construcción</p>
 
         <h1 class="hero__title">
-          Un modelo BIM.<br>
-          Un solo dato verificado.<br>
-          <span class="hero__title-accent">Cero desfases entre obra y oficina.</span>
+          Las obras se salen de presupuesto<br>
+          cuando los datos no se hablan<br>
+          <span class="hero__title-accent">entre sí.</span>
         </h1>
 
         <p class="hero__subtitle">
-          Sistema de control BIM integrado que conecta el modelo, el presupuesto,
-          el cronograma y el avance real de obra en una sola fuente de verdad —
-          sin hojas de cálculo sueltas ni reportes que ya nacen desactualizados.
+          Solken conecta el modelo, el presupuesto y el avance real en una sola
+          fuente de verdad — para que los errores aparezcan en pantalla
+          antes de que lleguen en la cuenta final.
         </p>
 
         <div class="hero__actions">
@@ -111,15 +111,17 @@
       <div class="container">
         <div class="section-head">
           <h2 class="section-head__title">El sistema</h2>
-          <p class="section-head__subtitle">Cinco capas conectadas, tres niveles de capacidad.</p>
+          <p class="section-head__subtitle">De los datos dispersos a un solo cuadro de mando.</p>
         </div>
 
         <div class="section-block">
           <p class="section__kicker">Ciclo de vida del proyecto</p>
           <p class="timeline__intro">
-            El sistema opera de forma continua durante todo el ciclo de vida del proyecto: desde el
-            desarrollo del proyecto ejecutivo, detectando inconsistencias antes de construir, hasta la
-            ejecución en obra, auditando avance real contra modelo y presupuesto cada semana.
+            Cada proyecto genera cientos de datos en paralelo — cuantificaciones, partidas, tareas,
+            compras, avance físico. El problema no es la falta de información: es que esa información
+            vive en sistemas que no se hablan entre sí. Solken actúa como capa de integración desde el
+            proyecto ejecutivo hasta el cierre de obra, cruzando fuentes en tiempo real y detectando
+            inconsistencias antes de que se conviertan en extras no presupuestados.
           </p>
           <div class="timeline">
             <div class="timeline__track" aria-hidden="true"></div>
@@ -152,87 +154,71 @@
             <div class="stack-cell">
               <div class="stack-cell__n">01</div>
               <div class="stack-cell__title">Modelo</div>
-              <div class="stack-cell__desc">Revit + Dynamo — fuente de datos del proyecto</div>
+              <div class="stack-cell__desc">El modelo BIM es la fuente de verdad del proyecto — cuantificaciones, elementos y parámetros de obra.</div>
             </div>
             <div class="stack-cell">
               <div class="stack-cell__n">02</div>
               <div class="stack-cell__title">Presupuesto</div>
-              <div class="stack-cell__desc">OPUS + SQL Server Express — control de costo por partida</div>
+              <div class="stack-cell__desc">Cada partida vive en el presupuesto con su costo real, sus recursos y su estado de compra actualizado.</div>
             </div>
             <div class="stack-cell">
               <div class="stack-cell__n">03</div>
               <div class="stack-cell__title">Programación</div>
-              <div class="stack-cell__desc">MS Project — cronograma y avance por jornada</div>
+              <div class="stack-cell__desc">El cronograma refleja lo que ocurre en campo — con duraciones reales, no estimaciones genéricas copiadas.</div>
             </div>
             <div class="stack-cell">
               <div class="stack-cell__n">04</div>
               <div class="stack-cell__title">Integración</div>
-              <div class="stack-cell__desc">MCP + REST API (Node.js) — conexión entre capas en tiempo real</div>
+              <div class="stack-cell__desc">Las tres fuentes se cruzan automáticamente para detectar inconsistencias antes de que alguien las note en reunión.</div>
             </div>
             <div class="stack-cell">
               <div class="stack-cell__n">05</div>
               <div class="stack-cell__title">Visualización</div>
-              <div class="stack-cell__desc">Power BI — dashboard de decisión para la dirección</div>
+              <div class="stack-cell__desc">El director recibe un dashboard con los números que importan — sin necesidad de pedir reportes a su equipo.</div>
             </div>
           </div>
           <p class="section-outro">
-            Las cinco capas están activas desde el primer trazo hasta la última partida ejercida —
-            no se instalan una vez, operan todo el proyecto.
+            Las cinco capas operan de forma continua — no son una instalación, son un sistema que trabaja todo el proyecto.
           </p>
         </div>
 
         <div class="section-block">
-          <p class="section__kicker">Cómo se conectan las capas</p>
+          <p class="section__kicker">Cómo funciona en la práctica</p>
           <div class="levels">
             <div class="level">
               <div class="level__dot"></div>
               <div class="level__head">
-                <h3 class="level__title">Nivel skill</h3>
+                <h3 class="level__title">Extrae sin intervención manual</h3>
               </div>
               <p class="level__body">
-                Claude recibe instrucciones en lenguaje natural y las traduce en operaciones
-                concretas sobre cada herramienta: consulta partidas en OPUS, lee elementos
-                del modelo en Revit, verifica avance en MS Project. El skill define qué
-                preguntar y cómo interpretar la respuesta.
+                Solken consulta directamente el modelo, el presupuesto y el cronograma —
+                sin que nadie tenga que exportar archivos, copiar celdas ni preparar
+                un reporte. Los datos se leen en el momento en que se necesitan.
               </p>
             </div>
 
             <div class="level">
               <div class="level__dot"></div>
               <div class="level__head">
-                <h3 class="level__title">Nivel script</h3>
+                <h3 class="level__title">Cruza y detecta lo que no cuadra</h3>
               </div>
               <p class="level__body">
-                Scripts de Dynamo extraen parámetros de elementos del modelo Revit;
-                scripts de Python o Node.js consultan la base SQL de OPUS y exportan
-                datos de MS Project. Cada script opera sobre una fuente específica
-                y entrega datos estructurados al siguiente nivel.
+                Cuando el modelo dice 39 zapatas y el presupuesto dice 38, Solken
+                lo detecta. Cuando el estado de compras está desactualizado o una
+                duración en el cronograma no corresponde al rendimiento real de campo,
+                Solken lo señala antes de que genere un problema.
               </p>
             </div>
 
             <div class="level">
               <div class="level__dot"></div>
               <div class="level__head">
-                <h3 class="level__title">Nivel MCP</h3>
+                <h3 class="level__title">Entrega la alerta a quien toma la decisión</h3>
               </div>
               <p class="level__body">
-                Servidores MCP propios — uno por herramienta (Revit, OPUS, MS Project,
-                Power BI) — exponen las operaciones de cada capa como herramientas
-                accesibles en tiempo real. El agente los orquesta sin intervención manual:
-                extrae, cruza y valida datos entre las cinco capas en una sola sesión.
-              </p>
-            </div>
-
-            <div class="level">
-              <div class="level__dot"></div>
-              <div class="level__head">
-                <h3 class="level__title">Nivel API</h3>
-              </div>
-              <p class="level__body">
-                Una API REST propia unifica el acceso a todas las capas desde un único
-                punto de entrada. Permite que Power BI, herramientas externas o
-                flujos automatizados consulten datos del proyecto sin depender de
-                sesiones interactivas — el sistema responde, no solo informa.
+                El resultado no es un log técnico — es un semáforo por partida,
+                por frente de obra, por jornada. El director ve qué partidas están
+                en riesgo, no qué tablas de base de datos tienen inconsistencias.
               </p>
             </div>
           </div>
@@ -768,7 +754,7 @@
       <div class="container">
         <div class="section-head">
           <h2 class="section-head__title">Para quién es esto</h2>
-          <p class="section-head__subtitle">Es para quienes quieren mejorar cómo gestionan la información de sus proyectos.</p>
+          <p class="section-head__subtitle">Para directores y gerentes que saben que hay un problema, pero no saben exactamente dónde está.</p>
         </div>
 
         <div class="checklist">
@@ -858,7 +844,8 @@
         </div>
 
         <p class="contacto__body">
-          Si tienes un proyecto activo donde la visibilidad del avance real es crítica, agenda una conversación.
+          Si tienes un proyecto activo donde los números de presupuesto, cronograma y avance
+          no llegan a tiempo — o no cuadran cuando llegan — agenda una conversación.
           La primera sesión es para entender tu operación, no para venderte nada.
         </p>
 
