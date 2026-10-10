@@ -1,0 +1,558 @@
+<title>Solken — Servicios</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap">
+
+<style>
+  /*
+    Layout: single-column editorial service page, wide max-width, generous whitespace.
+    Design language: warm dark copper accent on clean off-white; serif display + sans body.
+  */
+  :root {
+    --bg:        #F6F4F0;
+    --bg-card:   #FFFFFF;
+    --fg:        #1A1816;
+    --fg-muted:  #6B6560;
+    --accent:    #C97C4B;
+    --accent-lt: #F0E4D8;
+    --border:    #E2DDD7;
+    --green:     #2D7A4F;
+    --green-lt:  #E6F4ED;
+
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+
+    --r: 8px;
+    --max: 720px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #181614;
+      --bg-card:   #231F1C;
+      --fg:        #F0EDE8;
+      --fg-muted:  #9A9390;
+      --accent:    #D98F5C;
+      --accent-lt: #2E1F12;
+      --border:    #312B27;
+      --green:     #4CAF78;
+      --green-lt:  #0F2A1C;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #181614;
+    --bg-card:   #231F1C;
+    --fg:        #F0EDE8;
+    --fg-muted:  #9A9390;
+    --accent:    #D98F5C;
+    --accent-lt: #2E1F12;
+    --border:    #312B27;
+    --green:     #4CAF78;
+    --green-lt:  #0F2A1C;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0;
+    padding-inline: 20px;
+    padding-block: 56px 80px;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-end: 48px;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: .02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .wordmark span { color: var(--accent); }
+  .back-link {
+    font-size: .85rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-link:hover { color: var(--fg); }
+
+  /* ── INTRO ── */
+  .intro {
+    padding-block-end: 56px;
+    border-bottom: 1px solid var(--border);
+    margin-block-end: 56px;
+  }
+  .eyebrow {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-block-end: 16px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.18;
+    text-wrap: balance;
+    margin: 0 0 20px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .intro-body {
+    font-size: 1.05rem;
+    color: var(--fg-muted);
+    max-width: 58ch;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-label {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin: 0 0 28px;
+  }
+
+  /* ── SERVICE TIERS ── */
+  .tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-block-end: 56px;
+  }
+
+  .tier {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 28px 28px 24px;
+    position: relative;
+    transition: border-color .15s;
+  }
+  .tier:hover { border-color: var(--accent); }
+  .tier.featured {
+    border-color: var(--accent);
+    background: var(--bg-card);
+  }
+  .tier.featured::before {
+    content: 'Más contratado';
+    position: absolute;
+    top: -1px; right: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 0 0 6px 6px;
+  }
+  .tier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-block-end: 16px;
+  }
+  .tier-name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin: 0;
+  }
+  .tier-status {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    align-self: flex-start;
+  }
+  .tier-status.available {
+    background: var(--green-lt);
+    color: var(--green);
+  }
+  .tier-status.dev {
+    background: var(--accent-lt);
+    color: var(--accent);
+  }
+  .tier-desc {
+    font-size: .95rem;
+    color: var(--fg-muted);
+    margin: 0 0 20px;
+    line-height: 1.6;
+  }
+  .tier-includes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: .9rem;
+  }
+  .tier-includes li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tier-includes li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── PRICING CALLOUT ── */
+  .pricing-note {
+    background: var(--accent-lt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--r) var(--r) 0;
+    padding: 18px 20px;
+    font-size: .9rem;
+    color: var(--fg);
+    margin-block-end: 56px;
+    line-height: 1.6;
+  }
+  .pricing-note strong { color: var(--accent); }
+
+  /* ── WHAT'S INCLUDED TABLE ── */
+  .onboarding {
+    margin-block-end: 56px;
+  }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    background: var(--accent-lt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--accent);
+    padding: 20px 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .step-content {
+    padding: 18px 20px;
+    background: var(--bg-card);
+  }
+  .step-content h4 {
+    font-size: .9rem;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--fg);
+  }
+  .step-content p {
+    font-size: .88rem;
+    color: var(--fg-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── COMPLEMENTARY ── */
+  .complementary {
+    margin-block-end: 56px;
+  }
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .comp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 18px 18px 16px;
+  }
+  .comp-card h4 {
+    font-size: .9rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .comp-card p {
+    font-size: .83rem;
+    color: var(--fg-muted);
+    margin: 0 0 10px;
+    line-height: 1.5;
+  }
+  .comp-price {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .cta-block h2 {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 400;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .cta-block p {
+    font-size: .95rem;
+    color: var(--fg-muted);
+    margin: 0;
+    max-width: 52ch;
+    line-height: 1.65;
+  }
+  .cta-email {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--fg);
+    background: var(--accent);
+    border: none;
+    border-radius: var(--r);
+    padding: 12px 22px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    letter-spacing: .01em;
+    transition: opacity .15s;
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+  }
+  .cta-email:hover { opacity: .88; }
+  .cta-sub {
+    font-size: .82rem;
+    color: var(--fg-muted);
+    margin: 0 !important;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-block: 56px;
+  }
+
+  @media (max-width: 480px) {
+    body { padding-inline: 16px; }
+    .cta-block { padding: 24px 20px; }
+    .step { grid-template-columns: 52px 1fr; }
+    .step-num { font-size: 1rem; }
+    .tier { padding: 22px 18px 20px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="site-header">
+    <span class="wordmark">Sol<span>k</span>en™</span>
+    <a class="back-link" href="https://solken-bim-mx.github.io/control-bim-integrado/" target="_blank">
+      ← Ver el sistema
+    </a>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <p class="eyebrow">Servicios</p>
+    <h1>Lo que puedes<br><em>contratar</em> con Solken</h1>
+    <p class="intro-body">
+      El sistema conecta modelo, presupuesto y avance real en un solo cuadro de mando.
+      Dependiendo de lo que necesita tu proyecto, puedes entrar con el nivel de control
+      que corresponde a tu etapa — y escalar desde ahí.
+    </p>
+  </section>
+
+  <!-- TIERS -->
+  <section>
+    <p class="section-label">Niveles de servicio</p>
+    <div class="tiers">
+
+      <div class="tier">
+        <div class="tier-header">
+          <h3 class="tier-name">Detección</h3>
+          <span class="tier-status available">Disponible</span>
+        </div>
+        <p class="tier-desc">
+          Auditoría cruzada continua entre modelo, presupuesto y avance.
+          Cuando una cifra no cuadra, el sistema lo detecta antes de que llegue a obra.
+        </p>
+        <ul class="tier-includes">
+          <li>Dashboard conectado: modelo + presupuesto + avance en una vista</li>
+          <li>Detección de desfases entre Revit y OPUS (ej. 39 zapatas vs. 38)</li>
+          <li>Corrección vía confirmación del equipo — no automática</li>
+          <li>Sesión mensual de revisión con el responsable del proyecto</li>
+        </ul>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-header">
+          <h3 class="tier-name">Alerta por impacto</h3>
+          <span class="tier-status available">Disponible</span>
+        </div>
+        <p class="tier-desc">
+          Semáforo de valor ganado: cruza avance físico real contra programa y presupuesto
+          ejercido, con alertas por partida. La información llega al director, no solo al
+          coordinador BIM.
+        </p>
+        <ul class="tier-includes">
+          <li>Todo lo del nivel Detección</li>
+          <li>Lógica de Valor Ganado (SPI/CPI) por frente de obra</li>
+          <li>Alertas por partida con umbral configurable</li>
+          <li>Reporte ejecutivo automático cada semana</li>
+          <li>Soporte técnico continuo y ajustes al sistema</li>
+        </ul>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <h3 class="tier-name">Anticipación</h3>
+          <span class="tier-status dev">En desarrollo</span>
+        </div>
+        <p class="tier-desc">
+          Proyección de tendencia sobre las series de avance: a este ritmo, esta partida
+          estará en rojo en X días — antes de que el semáforo lo muestre.
+        </p>
+        <ul class="tier-includes">
+          <li>Proyección de desvío por partida y por frente</li>
+          <li>Ventana de anticipación configurable (7–21 días)</li>
+          <li>Disponible para clientes activos en nivel Alerta como hoja de ruta</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Pricing note -->
+    <div class="pricing-note">
+      <strong>Sobre los precios:</strong> El costo combina un fee único de implementación
+      (instalación, configuración e integración con tus sistemas) y un retainer mensual
+      durante la vida del proyecto. Los valores se discuten en conversación directa,
+      con base en el tamaño del proyecto y el nivel contratado. Escríbeme para que te
+      haga un número concreto.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ONBOARDING -->
+  <section class="onboarding">
+    <p class="section-label">Qué incluye la implementación</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">S1</div>
+        <div class="step-content">
+          <h4>Diagnóstico del estado actual</h4>
+          <p>Levantamiento de tus formatos, herramientas y procesos existentes. Identificamos dónde están los datos hoy y qué hay que conectar.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">S2</div>
+        <div class="step-content">
+          <h4>Configuración en tu entorno</h4>
+          <p>Instalación y configuración del sistema en los servidores y herramientas del proyecto — sin migrar tu stack actual.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">S3</div>
+        <div class="step-content">
+          <h4>Integración con presupuesto y cronograma</h4>
+          <p>Conexión nativa con OPUS vía MCP. Si usas Neodata u otro sistema de precios, la integración se hace vía exportación periódica a Excel.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">S4</div>
+        <div class="step-content">
+          <h4>Capacitación y primera sesión</h4>
+          <p>Capacitación del equipo en el dashboard, activación de alertas y primera revisión ejecutiva — sistema operando desde la semana 4.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- COMPLEMENTARY -->
+  <section class="complementary">
+    <p class="section-label">Servicios independientes</p>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <h4>Diagnóstico exprés</h4>
+        <p>Revisión del estado actual de información de tu proyecto: dónde están los datos, qué no cuadra, qué se puede conectar.</p>
+        <span class="comp-price">$5,000–$8,000 MXN · fee único</span>
+      </div>
+      <div class="comp-card">
+        <h4>Taller BIM + Power BI</h4>
+        <p>Sesión técnica para el equipo de obra: cómo leer y usar el dashboard, criterios de alerta, flujo de actualización.</p>
+        <span class="comp-price">$8,000–$15,000 MXN · por sesión</span>
+      </div>
+      <div class="comp-card">
+        <h4>Asesoría por hora</h4>
+        <p>Para proyectos puntuales o preguntas específicas sobre el sistema. Ideal antes de comprometerse con un retainer.</p>
+        <span class="comp-price">$800–$1,200 MXN · por hora</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CTA -->
+  <section class="cta-block">
+    <h2>¿Tienes un proyecto activo con datos que no cuadran?</h2>
+    <p>
+      Cuéntame qué está pasando en tu obra — presupuesto, cronograma, o avance real.
+      En una llamada de 20 minutos identificamos si el sistema tiene sentido para tu proyecto
+      y en qué nivel entraría.
+    </p>
+    <a class="cta-email" href="mailto:solkenbim@gmail.com">Escribir a solkenbim@gmail.com</a>
+    <p class="cta-sub">También puedes escribirme directamente en LinkedIn → Carlos I. Rodríguez Herrera</p>
+  </section>
+
+</div>
