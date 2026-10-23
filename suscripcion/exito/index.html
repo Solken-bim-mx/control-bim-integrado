@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suscripción activada — Solken</title>
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/styles.css" />
+  <style>
+    .status-page {
+      min-height: calc(100vh - var(--header-height));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+    .status-card {
+      max-width: 480px;
+      text-align: center;
+    }
+    .status-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 28px;
+      border-radius: 50%;
+      background: var(--color-verify-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-icon svg { width: 26px; height: 26px; }
+    .status-card h1 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--color-text);
+    }
+    .status-card p {
+      color: var(--color-text-dim);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .status-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <nav class="nav" aria-label="Navegación principal">
+      <a class="nav__mark" href="https://solken-bim-mx.github.io/control-bim-integrado/#inicio" aria-label="Ir a inicio">
+        <img src="../../assets/img/logo-nav.svg" alt="Solken" style="height: 74px; display: block;">
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="status-page">
+      <div class="status-card">
+        <div class="status-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-verify)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <h1>Tu suscripción a Solken Pro está activa</h1>
+        <p>
+          El pago se procesó correctamente. Ya puedes volver al agente —
+          tus herramientas de lectura y escritura con aprobación quedan
+          disponibles de inmediato.
+        </p>
+        <div class="status-actions">
+          <a href="https://solken-bim-mx.github.io/control-bim-integrado/#inicio" class="btn btn--primary">Ir al sitio de Solken</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
