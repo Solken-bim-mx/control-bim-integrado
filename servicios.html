@@ -163,7 +163,7 @@
     background: var(--bg-card);
   }
   .tier.featured::before {
-    content: 'Más contratado';
+    content: 'Recomendado';
     position: absolute;
     top: -1px; right: 20px;
     background: var(--accent);
@@ -206,6 +206,17 @@
   .tier-status.dev {
     background: var(--accent-lt);
     color: var(--accent);
+  }
+  .tier-price {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    margin: 0 0 16px;
+  }
+  .tier-price span {
+    font-family: var(--font-body, inherit);
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--fg-muted);
   }
   .tier-desc {
     font-size: .95rem;
@@ -402,69 +413,76 @@
 
   <!-- INTRO -->
   <section class="intro">
-    <p class="eyebrow">Servicios</p>
-    <h1>Lo que puedes<br><em>contratar</em> con Solken</h1>
+    <p class="eyebrow">Planes</p>
+    <h1>Solken es <em>software</em>,<br>no un contrato por proyecto</h1>
     <p class="intro-body">
-      El sistema conecta modelo, presupuesto y avance real en un solo cuadro de mando.
-      Dependiendo de lo que necesita tu proyecto, puedes entrar con el nivel de control
-      que corresponde a tu etapa — y escalar desde ahí.
+      Te suscribes, conectas tu OPUS o Neodata, y el agente empieza a leer tu presupuesto
+      y tu cronograma de inmediato. Tres niveles, según cuánto necesitas que el agente
+      haga por ti además de mostrarte lo que ya tienes.
     </p>
   </section>
 
   <!-- TIERS -->
   <section>
-    <p class="section-label">Niveles de servicio</p>
+    <p class="section-label">Planes</p>
     <div class="tiers">
 
       <div class="tier">
         <div class="tier-header">
-          <h3 class="tier-name">Detección</h3>
+          <h3 class="tier-name">Free</h3>
           <span class="tier-status available">Disponible</span>
         </div>
+        <p class="tier-price">$0</p>
         <p class="tier-desc">
-          Auditoría cruzada continua entre modelo, presupuesto y avance.
-          Cuando una cifra no cuadra, el sistema lo detecta antes de que llegue a obra.
+          Solo lectura. Explora tu presupuesto y tu cronograma sin que el agente toque nada —
+          para comprobar que la conexión funciona antes de pagar.
         </p>
         <ul class="tier-includes">
-          <li>Dashboard conectado: modelo + presupuesto + avance en una vista</li>
-          <li>Detección de desfases entre Revit y OPUS (ej. 39 zapatas vs. 38)</li>
-          <li>Corrección vía confirmación del equipo — no automática</li>
-          <li>Sesión mensual de revisión con el responsable del proyecto</li>
+          <li>Consulta de presupuesto OPUS y cronograma MS Project</li>
+          <li>Lectura de matrices de recursos, sin edición</li>
+          <li>Detección de desfases entre Revit y OPUS en modo consulta</li>
+          <li>10 herramientas de exploración</li>
         </ul>
       </div>
 
       <div class="tier featured">
         <div class="tier-header">
-          <h3 class="tier-name">Alerta por impacto</h3>
+          <h3 class="tier-name">Pro</h3>
           <span class="tier-status available">Disponible</span>
         </div>
+        <p class="tier-price">$499 <span>MXN / mes</span></p>
         <p class="tier-desc">
-          Semáforo de valor ganado: cruza avance físico real contra programa y presupuesto
-          ejercido, con alertas por partida. La información llega al director, no solo al
-          coordinador BIM.
+          Todo lo de Free, más el cruce de avance contra costo, alertas automáticas y
+          escritura en tus sistemas — siempre con tu aprobación antes de que el agente
+          cambie algo.
         </p>
         <ul class="tier-includes">
-          <li>Todo lo del nivel Detección</li>
-          <li>Lógica de Valor Ganado (SPI/CPI) por frente de obra</li>
-          <li>Alertas por partida con umbral configurable</li>
-          <li>Reporte ejecutivo automático cada semana</li>
-          <li>Soporte técnico continuo y ajustes al sistema</li>
+          <li>Todo lo del plan Free</li>
+          <li>Cruce de avance real vs. costo por partida</li>
+          <li>Alertas automáticas por desviación</li>
+          <li>Reporte ejecutivo semanal</li>
+          <li>Escritura en OPUS y MS Project con tu aprobación explícita</li>
+          <li>27 herramientas en total · 30 días de prueba</li>
         </ul>
       </div>
 
       <div class="tier">
         <div class="tier-header">
-          <h3 class="tier-name">Anticipación</h3>
-          <span class="tier-status dev">En desarrollo</span>
+          <h3 class="tier-name">Team</h3>
+          <span class="tier-status dev">Próximamente</span>
         </div>
+        <p class="tier-price">Por definir</p>
         <p class="tier-desc">
-          Proyección de tendencia sobre las series de avance: a este ritmo, esta partida
-          estará en rojo en X días — antes de que el semáforo lo muestre.
+          Para despachos y constructoras con varios frentes de obra activos a la vez:
+          audita y separa matrices de recursos compartidas entre partidas, y guarda
+          líneas base nativas de MS Project.
         </p>
         <ul class="tier-includes">
-          <li>Proyección de desvío por partida y por frente</li>
-          <li>Ventana de anticipación configurable (7–21 días)</li>
-          <li>Disponible para clientes activos en nivel Alerta como hoja de ruta</li>
+          <li>Todo lo del plan Pro</li>
+          <li>Auditoría y separación de matrices de recursos compartidas</li>
+          <li>Guardado de línea base nativa en MS Project</li>
+          <li>Pensado para varios frentes de obra en simultáneo</li>
+          <li>31 herramientas en total</li>
         </ul>
       </div>
 
@@ -472,11 +490,9 @@
 
     <!-- Pricing note -->
     <div class="pricing-note">
-      <strong>Sobre los precios:</strong> El costo combina un fee único de implementación
-      (instalación, configuración e integración con tus sistemas) y un retainer mensual
-      durante la vida del proyecto. Los valores se discuten en conversación directa,
-      con base en el tamaño del proyecto y el nivel contratado. Escríbeme para que te
-      haga un número concreto.
+      <strong>Sobre los precios:</strong> Free y Pro se cobran directo en el sitio, mes a
+      mes y sin permanencia forzosa — cancelas cuando quieras. Team todavía no tiene fecha
+      ni precio: si tu operación necesita ese nivel, escríbeme y te aviso en cuanto esté listo.
     </div>
   </section>
 
@@ -484,34 +500,34 @@
 
   <!-- ONBOARDING -->
   <section class="onboarding">
-    <p class="section-label">Qué incluye la implementación</p>
+    <p class="section-label">Cómo empiezas</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">S1</div>
         <div class="step-content">
-          <h4>Diagnóstico del estado actual</h4>
-          <p>Levantamiento de tus formatos, herramientas y procesos existentes. Identificamos dónde están los datos hoy y qué hay que conectar.</p>
+          <h4>Te registras con tu correo</h4>
+          <p>Alta en segundos con Gmail o Apple — sin tarjeta, con 30 días de prueba de Pro incluidos.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">S2</div>
         <div class="step-content">
-          <h4>Configuración en tu entorno</h4>
-          <p>Instalación y configuración del sistema en los servidores y herramientas del proyecto — sin migrar tu stack actual.</p>
+          <h4>Conectas tu base de datos</h4>
+          <p>Solken necesita hablar con la base de datos de tu sistema de presupuesto (OPUS, Neodata, etc.). Si usas LocalDB, te guío a migrar a SQL Express — por captura de pantalla o videollamada.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">S3</div>
         <div class="step-content">
-          <h4>Integración con presupuesto y cronograma</h4>
-          <p>Conexión nativa con OPUS vía MCP. Si usas Neodata u otro sistema de precios, la integración se hace vía exportación periódica a Excel.</p>
+          <h4>Pruebas la conexión</h4>
+          <p>Antes de dejarte trabajar, el agente verifica la conexión y, si algo falla, te dice exactamente qué revisar.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">S4</div>
         <div class="step-content">
-          <h4>Capacitación y primera sesión</h4>
-          <p>Capacitación del equipo en el dashboard, activación de alertas y primera revisión ejecutiva — sistema operando desde la semana 4.</p>
+          <h4>Empiezas a trabajar</h4>
+          <p>Con Free ya exploras tu presupuesto y tu cronograma. Subes a Pro cuando quieras que el agente también cruce, alerte y escriba por ti.</p>
         </div>
       </div>
     </div>
@@ -535,7 +551,7 @@
       </div>
       <div class="comp-card">
         <h4>Asesoría por hora</h4>
-        <p>Para proyectos puntuales o preguntas específicas sobre el sistema. Ideal antes de comprometerse con un retainer.</p>
+        <p>Para proyectos puntuales o preguntas específicas sobre el sistema. Ideal antes de suscribirte a un plan.</p>
         <span class="comp-price">$800–$1,200 MXN · por hora</span>
       </div>
     </div>
@@ -545,13 +561,12 @@
 
   <!-- CTA -->
   <section class="cta-block">
-    <h2>¿Tienes un proyecto activo con datos que no cuadran?</h2>
+    <h2>¿Quieres probarlo en tu proyecto?</h2>
     <p>
-      Cuéntame qué está pasando en tu obra — presupuesto, cronograma, o avance real.
-      En una llamada de 20 minutos identificamos si el sistema tiene sentido para tu proyecto
-      y en qué nivel entraría.
+      Escríbeme y te doy de alta en Free o directo en tu prueba de Pro, y te acompaño en
+      la conexión a tu sistema de presupuesto desde el primer día.
     </p>
-    <a class="cta-email" href="mailto:solkenbim@gmail.com">Escribir a solkenbim@gmail.com</a>
+    <a class="cta-email" href="mailto:solkenbim@gmail.com?subject=Quiero%20probar%20Solken">Escribir a solkenbim@gmail.com</a>
     <a class="cta-email" href="checklist.html">→ Hacer el diagnóstico gratuito primero</a>
     <p class="cta-sub">También puedes escribirme directamente en LinkedIn → Carlos I. Rodríguez Herrera</p>
   </section>
