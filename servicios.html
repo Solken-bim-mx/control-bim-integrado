@@ -238,6 +238,27 @@
     gap: 10px;
     align-items: flex-start;
   }
+  .tier-download {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: var(--r);
+    padding: 10px 18px;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+  .tier-download:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  .tier-download-note {
+    font-size: .78rem;
+    color: var(--fg-muted);
+    margin: 8px 0 0;
+  }
   .tier-includes li::before {
     content: '→';
     color: var(--accent);
@@ -443,6 +464,8 @@
           <li>Detección de desfases entre Revit y OPUS en modo consulta</li>
           <li>10 herramientas de exploración</li>
         </ul>
+        <a class="tier-download" href="https://github.com/solken-bim-mx/control-bim-integrado/releases/download/v1.0.0-free/Solken-free-Setup-1.0.0.exe">Descargar Solken Free</a>
+        <p class="tier-download-note">Instalador para Windows · 10.9 MB</p>
       </div>
 
       <div class="tier featured">
