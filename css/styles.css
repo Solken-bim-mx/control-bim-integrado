@@ -122,17 +122,22 @@ body {
   color: var(--color-text);
 }
 
-.nav__link--cta {
-  margin-left: 8px;
-  padding: 9px 18px;
-  color: var(--color-graphite);
-  background: var(--color-copper);
-  font-weight: 600;
-}
-
 .nav__link--cta:hover {
   color: var(--color-graphite);
   background: #d38f63;
+}
+
+.nav__link--login {
+  margin-left: 8px;
+  padding: 9px 18px;
+  color: var(--color-copper);
+  background: var(--color-surface-2);
+  font-weight: 600;
+}
+
+.nav__link--login:hover {
+  color: var(--color-copper);
+  background: #323841;
 }
 
 .nav__toggle {
