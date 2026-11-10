@@ -135,11 +135,27 @@
       width: fit-content;
       padding-bottom: 6px;
       border-bottom: 1px solid currentColor;
+      text-decoration: none;
     }
     .selector-pane--sistema .selector-cta { color: var(--color-text); }
     .selector-pane--agent .selector-cta { color: #fffaf5; }
     .selector-cta svg { transition: transform 180ms ease; }
-    .selector-pane:hover .selector-cta svg { transform: translateX(4px); }
+    .selector-cta:hover svg { transform: translateX(4px); }
+
+    .selector-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+    }
+    .selector-cta--secondary {
+      font-weight: 500;
+      opacity: 0.82;
+      border-bottom-style: dashed;
+    }
+    .selector-cta--secondary:hover { opacity: 1; }
+
+    .selector-pane--agent { cursor: default; }
 
     .selector-agent-mark {
       display: flex; align-items: center; gap: 12px;
@@ -184,7 +200,7 @@
     </a>
 
     <!-- SOLKEN AGENT: el producto -->
-    <a class="selector-pane selector-pane--agent" href="http://localhost:3002/agent/" title="Solo funciona si ya tienes Solken instalado en esta PC" aria-label="Iniciar sesión en Solken Agent">
+    <div class="selector-pane selector-pane--agent" role="group" aria-label="Solken Agent">
       <div class="selector-content">
         <span class="selector-eyebrow">El producto</span>
         <div class="selector-agent-mark">
@@ -194,14 +210,22 @@
         <p class="selector-desc">
           Tu copiloto BIM para decisiones basadas en datos. Entra a tu panel, revisa presupuesto y avance, y pregúntale lo que necesites.
         </p>
-        <span class="selector-cta">
-          Iniciar sesión
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <div class="selector-cta-row">
+          <a class="selector-cta selector-cta--primary" href="http://localhost:3002/agent/" title="Solo funciona si ya tienes Solken instalado en esta PC">
+            Iniciar sesión
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="selector-cta selector-cta--secondary" href="servicios.html">
+            Ver planes y precios
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
       </div>
-    </a>
+    </div>
 
   </div>
 
