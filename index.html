@@ -145,8 +145,19 @@
     .selector-cta-row {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      gap: 24px;
+      align-items: flex-start;
+      gap: 28px;
+    }
+    .selector-cta-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .selector-cta-hint {
+      font-size: 12px;
+      font-weight: 500;
+      color: #fde9dd;
+      opacity: 0.68;
     }
     .selector-cta--secondary {
       font-weight: 500;
@@ -211,18 +222,24 @@
           Tu copiloto BIM para decisiones basadas en datos. Entra a tu panel, revisa presupuesto y avance, y pregúntale lo que necesites.
         </p>
         <div class="selector-cta-row">
-          <a class="selector-cta selector-cta--primary" href="http://localhost:3002/agent/" title="Solo funciona si ya tienes Solken instalado en esta PC">
-            Iniciar sesión
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-          <a class="selector-cta selector-cta--secondary" href="servicios.html">
-            Ver planes y precios
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
+          <div class="selector-cta-group">
+            <span class="selector-cta-hint">¿Ya tienes Solken instalado?</span>
+            <a class="selector-cta selector-cta--primary" href="http://localhost:3002/agent/" title="Abre tu Solken Agent instalado en esta computadora">
+              Iniciar sesión
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+          <div class="selector-cta-group">
+            <span class="selector-cta-hint">¿Aún no eres cliente?</span>
+            <a class="selector-cta selector-cta--secondary" href="servicios.html">
+              Ver planes y precios
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
