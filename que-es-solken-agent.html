@@ -160,7 +160,7 @@
   }
 
   /* ───────── scene 2: hub connecting ───────── */
-  .hub-wrap { position: relative; width: min(460px, 86vw); height: 300px; }
+  .hub-wrap { position: relative; width: min(460px, 86vw); height: 344px; }
   .hub-center {
     position: absolute; left: 230px; top: 170px;
     width: 72px; height: 72px;
@@ -376,7 +376,23 @@
 
   @media (max-width: 480px) {
     .cap-grid { grid-template-columns: 1fr; }
-    .hub-wrap { transform: scale(.74); }
+  }
+
+  /* embebido en un iframe bajo: comprime todo verticalmente */
+  @media (max-height: 680px) {
+    .stage { padding-block: 10px; }
+    .scene { gap: clamp(10px, 2.2vh, 20px); padding-block: 10px; }
+    .scene-title { font-size: clamp(1.25rem, 3.2vw, 1.9rem); margin: 0; }
+    .scene-body { font-size: .85rem; }
+    .silo { width: 72px; height: 72px; }
+    .silo svg { width: 24px; height: 24px; }
+    .hub-wrap { transform: scale(.72); margin-block: -48px; }
+    .chat-panel { padding: 14px 14px 12px; }
+    .cap-card { padding: 12px; }
+    .tier-pill { padding: 14px 12px; }
+  }
+  @media (max-height: 520px) {
+    .hub-wrap { transform: scale(.56); margin-block: -82px; }
   }
 </style>
 </head>
