@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Solken Agent — Onboarding</title>
+<meta name="description" content="Videos guiados para instalar, conectar y empezar a usar Solken Agent: desde qué es, hasta conectar OPUS, Neodata, MS Project y Power BI." />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Solken Agent — Onboarding" />
+<meta property="og:description" content="Videos guiados paso a paso para instalar y conectar Solken Agent a tu sistema de presupuesto, cronograma y modelo." />
+<meta property="og:image" content="https://solkenbim.com/assets/img/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://solkenbim.com/onboarding.html" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap">
+
+<style>
+  /*
+    Layout: single-column editorial page, igual que servicios.html,
+    para que Onboarding se sienta parte de la misma familia visual.
+  */
+  :root {
+    --bg:        #F6F4F0;
+    --bg-card:   #FFFFFF;
+    --fg:        #1A1816;
+    --fg-muted:  #6B6560;
+    --accent:    #C97C4B;
+    --accent-lt: #F0E4D8;
+    --border:    #E2DDD7;
+    --green:     #2D7A4F;
+    --green-lt:  #E6F4ED;
+
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+
+    --r: 8px;
+    --max: 720px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #181614;
+      --bg-card:   #231F1C;
+      --fg:        #F0EDE8;
+      --fg-muted:  #9A9390;
+      --accent:    #D98F5C;
+      --accent-lt: #2E1F12;
+      --border:    #312B27;
+      --green:     #4CAF78;
+      --green-lt:  #0F2A1C;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #181614;
+    --bg-card:   #231F1C;
+    --fg:        #F0EDE8;
+    --fg-muted:  #9A9390;
+    --accent:    #D98F5C;
+    --accent-lt: #2E1F12;
+    --border:    #312B27;
+    --green:     #4CAF78;
+    --green-lt:  #0F2A1C;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0;
+    padding-inline: 20px;
+    padding-block: 56px 80px;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-end: 48px;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: .02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .wordmark span { color: var(--accent); }
+  .back-link {
+    font-size: .85rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-link:hover { color: var(--fg); }
+
+  /* ── INTRO ── */
+  .intro {
+    padding-block-end: 56px;
+    border-bottom: 1px solid var(--border);
+    margin-block-end: 56px;
+  }
+  .eyebrow {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-block-end: 16px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.18;
+    text-wrap: balance;
+    margin: 0 0 20px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .intro-body {
+    font-size: 1.05rem;
+    color: var(--fg-muted);
+    max-width: 58ch;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-label {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin: 0 0 8px;
+  }
+  .section-intro {
+    font-size: .92rem;
+    color: var(--fg-muted);
+    margin: 0 0 24px;
+    line-height: 1.6;
+    max-width: 58ch;
+  }
+
+  /* ── VIDEO GROUPS ── */
+  .video-group {
+    margin-block-end: 56px;
+  }
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .video-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .video-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .video-card-num {
+    font-family: var(--font-display);
+    font-size: .8rem;
+    color: var(--accent);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .video-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 2px 0 0;
+  }
+  .video-card p {
+    font-size: .88rem;
+    color: var(--fg-muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+  .video-status {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .video-status.available {
+    background: var(--green-lt);
+    color: var(--green);
+  }
+  .video-status.dev {
+    background: var(--accent-lt);
+    color: var(--accent);
+  }
+  .video-embed-wrap {
+    margin-top: 4px;
+    border-radius: var(--r);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .video-embed-wrap iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+  }
+  .video-placeholder {
+    margin-top: 4px;
+    border-radius: var(--r);
+    border: 1px dashed var(--border);
+    background: var(--accent-lt);
+    color: var(--accent);
+    font-size: .82rem;
+    font-weight: 500;
+    padding: 18px 16px;
+    text-align: center;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-block: 56px;
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .cta-block h2 {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 400;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .cta-block p {
+    font-size: .95rem;
+    color: var(--fg-muted);
+    margin: 0;
+    max-width: 52ch;
+    line-height: 1.65;
+  }
+  .cta-email {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--fg);
+    background: var(--accent);
+    border: none;
+    border-radius: var(--r);
+    padding: 12px 22px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    letter-spacing: .01em;
+    transition: opacity .15s;
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+  }
+  .cta-email:hover { opacity: .88; }
+
+  @media (max-width: 480px) {
+    body { padding-inline: 16px; }
+    .cta-block { padding: 24px 20px; }
+    .video-card { padding: 16px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="site-header">
+    <span class="wordmark">Sol<span>k</span>en™</span>
+    <a class="back-link" href="/">← Volver</a>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <p class="eyebrow">Solken Agent</p>
+    <h1>Onboarding, <em>paso a paso</em></h1>
+    <p class="intro-body">
+      Videos cortos para instalar Solken Agent y conectarlo a tu sistema de presupuesto,
+      cronograma y modelo. Sigue el orden: cada video resuelve el paso que normalmente
+      traba a quien instala por primera vez.
+    </p>
+  </section>
+
+  <!-- BLOQUE 1: ANTES DE EMPEZAR -->
+  <section class="video-group">
+    <p class="section-label">Antes de empezar</p>
+    <p class="section-intro">
+      Qué es Solken Agent y qué puedes hacer con él antes de instalar nada.
+    </p>
+    <div class="video-list">
+      <div class="video-card">
+        <div class="video-card-head">
+          <div>
+            <span class="video-card-num">Video 1</span>
+            <h4>Qué es Solken Agent</h4>
+          </div>
+          <span class="video-status dev">Próximamente</span>
+        </div>
+        <p>Introducción al agente: qué resuelve, para quién es, y cómo se ve tu panel una vez conectado.</p>
+        <div class="video-placeholder">Video en producción — se publica aquí en cuanto esté listo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE 2: INSTALACIÓN Y CONEXIÓN -->
+  <section class="video-group">
+    <p class="section-label">Instalación y conexión de tu sistema</p>
+    <p class="section-intro">
+      Ya eres cliente. Esta serie te lleva de instalar Solken a tenerlo leyendo tus datos reales —
+      en el orden en que normalmente se necesita resolver cada pieza.
+    </p>
+    <div class="video-list">
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <div>
+            <span class="video-card-num">Video 2</span>
+            <h4>OPUS + Neodata + SQL Express</h4>
+          </div>
+          <span class="video-status dev">Próximamente</span>
+        </div>
+        <p>
+          OPUS 25 y Neodata no son sistemas aislados: comparten una sola instancia de SQL Server
+          Express. Este video muestra cómo conviven ahí las 4 bases de datos, y cómo reconectar
+          una (Adjuntar / Restaurar) si algo se desconfigura.
+        </p>
+        <div class="video-placeholder">Audio de narración ya generado — en edición final.</div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <div>
+            <span class="video-card-num">Video 3</span>
+            <h4>Conectar MS Project y Power BI</h4>
+          </div>
+          <span class="video-status dev">Por grabar</span>
+        </div>
+        <p>Cómo apuntar Solken a tu archivo de cronograma y a tu dashboard de Power BI.</p>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <div>
+            <span class="video-card-num">Video 4</span>
+            <h4>Vincula tu propio proveedor de IA</h4>
+          </div>
+          <span class="video-status dev">Por grabar</span>
+        </div>
+        <p>La pantalla <code>/setup</code> de Solken: conecta Claude, OpenAI, DeepSeek u Ollama local con tus propias credenciales.</p>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <div>
+            <span class="video-card-num">Video 5</span>
+            <h4>Crear tu cuenta</h4>
+          </div>
+          <span class="video-status dev">Por grabar</span>
+        </div>
+        <p>Alta con Google, Apple o Microsoft y elección de plan.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BLOQUE 3: USO DIARIO -->
+  <section class="video-group">
+    <p class="section-label">Uso diario del agente</p>
+    <p class="section-intro">
+      Una vez conectado, así le preguntas a Solken por tu avance, tu presupuesto y tus matrices.
+    </p>
+    <div class="video-list">
+      <div class="video-card">
+        <div class="video-card-head">
+          <div>
+            <span class="video-card-num">Próxima serie</span>
+            <h4>Casos de uso reales</h4>
+          </div>
+          <span class="video-status dev">Por grabar</span>
+        </div>
+        <p>Ejemplos cortos: pedirle el avance de obra, detectar matrices compartidas, generar el reporte semanal.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CTA -->
+  <section class="cta-block">
+    <h2>¿Te atoraste en algún paso?</h2>
+    <p>
+      Mientras completamos esta serie, escríbeme directo y te acompaño por captura de pantalla
+      o videollamada.
+    </p>
+    <a class="cta-email" href="mailto:solkenbim@gmail.com?subject=Ayuda%20con%20onboarding%20de%20Solken%20Agent">Escribir a solkenbim@gmail.com</a>
+  </section>
+
+  <footer style="border-top:1px solid var(--border); padding:28px 0; text-align:center; margin-top:24px;">
+    <p style="font-size:13px; color:var(--fg-muted); margin:0;">
+      <a href="privacidad.html" style="color:inherit; text-decoration:underline;">Aviso de privacidad</a>
+      &nbsp;·&nbsp;
+      <a href="terminos.html" style="color:inherit; text-decoration:underline;">Términos del servicio</a>
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
