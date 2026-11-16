@@ -507,6 +507,10 @@
     <button class="ctrl-btn" id="muteBtn" aria-label="Silenciar narración">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 8a5 5 0 010 8M20 5a9 9 0 010 14" stroke-linecap="round"/></svg>
     </button>
+    <button class="ctrl-btn" id="pauseBtn" aria-label="Pausar">
+      <svg id="pauseIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>
+      <svg id="playIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M7 4.5v15l12-7.5z"/></svg>
+    </button>
     <button class="ctrl-btn" id="prevBtn" aria-label="Escena anterior">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L4 8l6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -522,11 +526,15 @@
     var dotsWrap = document.getElementById('dots');
     var overlay = document.getElementById('playOverlay');
     var muteBtn = document.getElementById('muteBtn');
+    var pauseBtn = document.getElementById('pauseBtn');
+    var pauseIcon = document.getElementById('pauseIcon');
+    var playIcon = document.getElementById('playIcon');
     var current = 0;
     var FALLBACK_MS = 7000;   // if an audio element has no playable src / fails to load
     var fallbackTimer = null;
     var narrating = false;    // becomes true once the user starts narrated playback
     var muted = false;
+    var paused = false;
 
     var audios = [];
     for (var i = 0; i < scenes.length; i++) {
@@ -571,6 +579,7 @@
 
     function playCurrent() {
       clearFallback();
+      if (paused) return;
       var a = audios[current];
       if (narrating && a) {
         a.muted = muted;
@@ -587,6 +596,25 @@
       current = (i + scenes.length) % scenes.length;
       render();
       playCurrent();
+    }
+
+    function setPaused(shouldPause) {
+      paused = shouldPause;
+      pauseIcon.style.display = paused ? 'none' : '';
+      playIcon.style.display = paused ? '' : 'none';
+      pauseBtn.setAttribute('aria-label', paused ? 'Reanudar' : 'Pausar');
+      var a = audios[current];
+      if (paused) {
+        clearFallback();
+        if (a) a.pause();
+      } else {
+        if (narrating && a && a.currentTime > 0 && !a.ended) {
+          var p = a.play();
+          if (p && p.catch) p.catch(function () { fallbackTimer = setTimeout(next, FALLBACK_MS); });
+        } else {
+          playCurrent();
+        }
+      }
     }
 
     function next() { goTo(current + 1); }
@@ -616,6 +644,8 @@
       var a = audios[current];
       if (a) a.muted = muted;
     });
+
+    pauseBtn.addEventListener('click', function () { setPaused(!paused); });
 
     render();
     // Autoplay without sound is allowed by most browsers, so start a silent
