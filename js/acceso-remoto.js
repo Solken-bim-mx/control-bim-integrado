@@ -68,10 +68,18 @@
 
   function mostrarError(msg) {
     var err = document.getElementById("sk-login-err");
-    if (err) {
-      err.textContent = msg;
-      err.style.display = "block";
+    if (!err) return;
+    // FastAPI manda detail como string en errores propios (HTTPException),
+    // pero como lista de objetos {loc, msg, type} en errores de validacion
+    // de Pydantic (ej. 2026-11-18: id_token sin proveedor_auth) -- sin esto
+    // el navegador convierte el objeto/arreglo a "[object Object]".
+    if (Array.isArray(msg)) {
+      msg = msg.map(function (m) { return m && m.msg ? m.msg : JSON.stringify(m); }).join(" / ");
+    } else if (msg && typeof msg === "object") {
+      msg = msg.msg || JSON.stringify(msg);
     }
+    err.textContent = msg || "No se pudo iniciar sesion.";
+    err.style.display = "block";
   }
 
   function continuarConRespuesta(data) {
@@ -97,7 +105,7 @@
   }
 
   function onCredentialGoogle(response) {
-    enviarLogin("/auth/login", { id_token: response.credential });
+    enviarLogin("/auth/login", { id_token: response.credential, proveedor_auth: "google" });
   }
 
   function abrirModal(hrefFallback) {
