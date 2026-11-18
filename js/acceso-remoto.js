@@ -29,10 +29,8 @@
   var BACKEND = "https://solken-suscripciones.onrender.com";
   var GOOGLE_CLIENT_ID = "766562700713-441tffpibcm3vaa0srlv8sgmfammnu4e.apps.googleusercontent.com";
 
-  function destinoDesdeUrlRemota(urlRemota) {
-    var base = (urlRemota && urlRemota.trim()) || "http://localhost:3002";
-    base = base.replace(/\/+$/, "");
-    return base + "/login?next=/agent";
+  function destino(base) {
+    return base.replace(/\/+$/, "") + "/login?next=/agent";
   }
 
   // ─── Modal ────────────────────────────────────────────────────────────
@@ -82,8 +80,43 @@
     err.style.display = "block";
   }
 
+  // Si el tenant configuro su propio acceso remoto, no asumimos a donde
+  // quiere ir: puede estar sentado frente a esta misma PC (y no le sirve
+  // de nada pasar por Cloudflare Access) o fuera de la oficina. Solo
+  // mandamos directo cuando hay una sola opcion posible (sin url_remota).
   function continuarConRespuesta(data) {
-    window.location.href = destinoDesdeUrlRemota(data.url_remota);
+    var urlRemota = (data.url_remota || "").trim();
+    if (!urlRemota) {
+      window.location.href = destino("http://localhost:3002");
+      return;
+    }
+    mostrarEleccionDestino(urlRemota);
+  }
+
+  function mostrarEleccionDestino(urlRemota) {
+    if (!modalEl) return;
+    var modal = modalEl.querySelector(".sk-login-modal");
+    modal.innerHTML =
+      '<button type="button" class="sk-login-cerrar" aria-label="Cerrar">&times;</button>' +
+      '<h2>&iexcl;Ya casi!</h2>' +
+      '<p class="sk-login-sub">&iquest;Desde d&oacute;nde quieres entrar?</p>' +
+      '<div class="sk-destino-opciones">' +
+      '  <button type="button" class="sk-destino-btn" id="sk-destino-pc">' +
+      '    <strong>Esta PC</strong>' +
+      '    <span>Est&aacute;s frente al equipo donde tienes Solken instalado</span>' +
+      "  </button>" +
+      '  <button type="button" class="sk-destino-btn" id="sk-destino-remoto">' +
+      '    <strong>Acceso remoto</strong>' +
+      '    <span>Entrar desde fuera, vía tu acceso remoto configurado</span>' +
+      "  </button>" +
+      "</div>";
+    modal.querySelector(".sk-login-cerrar").addEventListener("click", cerrarModal);
+    modal.querySelector("#sk-destino-pc").addEventListener("click", function () {
+      window.location.href = destino("http://localhost:3002");
+    });
+    modal.querySelector("#sk-destino-remoto").addEventListener("click", function () {
+      window.location.href = destino(urlRemota);
+    });
   }
 
   async function enviarLogin(url, body) {
