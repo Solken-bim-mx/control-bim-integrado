@@ -163,7 +163,59 @@
       ).querySelector("#sk-destino-pc").addEventListener("click", irAEstaPC);
       return;
     }
-    window.location.href = destino(urlRemota);
+    mostrarEnlaceRemoto(destino(urlRemota));
+  }
+
+  // Pantalla de enlace remoto (2026-11-18, a pedido de Carlos): muchas
+  // personas identifican su acceso remoto desde esta PC pero en realidad
+  // quieren ENTRAR desde su celular (están fuera de obra, por ejemplo).
+  // En vez de redirigir de inmediato en este mismo navegador, mostramos el
+  // enlace para que lo copien o lo escaneen con su teléfono; quien de
+  // verdad quiere continuar aquí mismo tiene el botón "Abrir aquí".
+  function mostrarEnlaceRemoto(url) {
+    var modal = render(
+      '<button type="button" class="sk-login-cerrar" aria-label="Cerrar">&times;</button>' +
+      "<h2>Tu acceso remoto</h2>" +
+      '<p class="sk-login-sub">Para entrar desde tu celular, abre el navegador del tel&eacute;fono y escribe (o copia) esta direcci&oacute;n:</p>' +
+      '<div class="sk-enlace-box">' +
+      '  <input type="text" id="sk-enlace-input" class="sk-enlace-input" value="' + url.replace(/"/g, "&quot;") + '" readonly>' +
+      '  <button type="button" id="sk-enlace-copiar" class="sk-enlace-copiar">Copiar</button>' +
+      "</div>" +
+      '<p class="sk-enlace-nota" id="sk-enlace-nota"></p>' +
+      '<button type="button" id="sk-enlace-abrir" class="sk-destino-btn">' +
+      "  <strong>Abrir aqu&iacute;</strong>" +
+      '  <span>Continuar en este mismo navegador</span>' +
+      "</button>"
+    );
+
+    var input = modal.querySelector("#sk-enlace-input");
+    var nota = modal.querySelector("#sk-enlace-nota");
+
+    modal.querySelector("#sk-enlace-copiar").addEventListener("click", function () {
+      input.focus();
+      input.select();
+      var copiado = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () {
+          nota.textContent = "Enlace copiado. Pégalo en el navegador de tu teléfono.";
+        }).catch(function () {
+          nota.textContent = "No se pudo copiar automáticamente: selecciona y copia el texto de arriba.";
+        });
+        copiado = true;
+      }
+      if (!copiado) {
+        try {
+          document.execCommand("copy");
+          nota.textContent = "Enlace copiado. Pégalo en el navegador de tu teléfono.";
+        } catch (e) {
+          nota.textContent = "No se pudo copiar automáticamente: selecciona y copia el texto de arriba.";
+        }
+      }
+    });
+
+    modal.querySelector("#sk-enlace-abrir").addEventListener("click", function () {
+      window.location.href = url;
+    });
   }
 
   async function enviarLogin(url, body) {
