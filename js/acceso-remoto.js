@@ -166,6 +166,12 @@
         window.google.accounts.id.initialize({
           client_id: GOOGLE_CLIENT_ID,
           callback: onCredentialGoogle,
+          // auto_select (2026-11-18, a pedido de Carlos): si el navegador
+          // ya tiene una sesion de Google activa, entra directo con esa
+          // cuenta sin mostrar el selector de cuentas de Google. Si la
+          // persona quiere usar otra cuenta, debe cerrar sesion de Google
+          // en el navegador primero.
+          auto_select: true,
         });
         window.google.accounts.id.renderButton(
           document.getElementById("sk-google-btn"),
