@@ -969,3 +969,41 @@ body {
   margin-top: auto;
   text-align: center;
 }
+
+/* ── Mini-login de acceso remoto (Pieza 4, 2026-11-18) ──────────────────── */
+.sk-login-overlay {
+  position: fixed; inset: 0; background: rgba(33,28,22,.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; padding: 16px;
+}
+.sk-login-modal {
+  background: #fff; border-radius: 16px; padding: 32px;
+  width: 100%; max-width: 360px; box-sizing: border-box;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  position: relative; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.sk-login-modal h2 { margin: 0 0 6px; font-size: 22px; color: #211C16; font-family: 'Space Grotesk', sans-serif; }
+.sk-login-sub { margin: 0 0 20px; font-size: 13.5px; color: #837A6C; }
+.sk-login-cerrar {
+  position: absolute; top: 10px; right: 14px; background: none; border: none;
+  font-size: 22px; line-height: 1; color: #837A6C; cursor: pointer; padding: 4px;
+}
+.sk-google-btn { display: flex; justify-content: center; margin-bottom: 4px; }
+.sk-login-divider { display: flex; align-items: center; gap: 10px; margin: 18px 0; color: #9C9589; font-size: 12px; }
+.sk-login-divider::before, .sk-login-divider::after { content: ''; flex: 1; height: 1px; background: #E3DDD1; }
+.sk-login-form { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.sk-login-form input {
+  width: 100%; box-sizing: border-box; border: 1.5px solid #E3DDD1; border-radius: 10px;
+  padding: 11px 13px; font-size: 14px; font-family: inherit;
+}
+.sk-login-form input:focus { outline: none; border-color: #C97C4B; box-shadow: 0 0 0 3px rgba(201,124,75,.16); }
+.sk-login-form button {
+  background: #C97C4B; color: #fff; border: none; border-radius: 10px;
+  padding: 12px 14px; font-size: 14.5px; font-weight: 600; cursor: pointer; margin-top: 2px;
+}
+.sk-login-form button:hover { background: #B06A3D; }
+.sk-login-err { color: #B3261E; font-size: 13px; margin: 14px 0 0; display: none; }
+.sk-login-fallback { font-size: 12px; color: #9C9589; margin: 18px 0 0; }
+.sk-login-fallback a { color: #C97C4B; text-decoration: none; font-weight: 500; }
+.sk-login-fallback a:hover { text-decoration: underline; }

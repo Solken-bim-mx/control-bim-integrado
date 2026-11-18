@@ -1,0 +1,154 @@
+/**
+ * Acceso remoto (Pieza 4, 2026-11-18).
+ *
+ * Los enlaces "Iniciar sesión" del sitio público apuntaban siempre a
+ * http://localhost:3002/agent/ -- correcto solo si la persona está frente
+ * a la misma PC/servidor donde tiene Solken instalado (ver sesión
+ * 2026-11-18, Opción B). Este script intercepta esos enlaces y antes de
+ * navegar:
+ *   1. Abre un mini-login (Google o correo+contraseña) contra
+ *      solken-suscripciones directamente desde el navegador (CORS
+ *      habilitado solo para este origen -- ver main.py).
+ *   2. Si el login identifica al tenant y este configuró su propio acceso
+ *      remoto (Tenant.url_remota, panel Configuración del agente), navega
+ *      ahí en vez de a esta misma PC.
+ *   3. Si no hay url_remota, o el JS falla por cualquier razón, se cae al
+ *      href original (localhost:3002/agent/) -- este script nunca rompe el
+ *      comportamiento anterior, solo lo mejora cuando puede.
+ *
+ * El destino SIEMPRE es la página /login de ese agente (local o remoto),
+ * no /agent/ directamente: el solken_token de este login es solo para
+ * *identificar* a dónde mandar a la persona, el agente destino hace su
+ * propio login real (misma página que ya existe hoy) y pone su propia
+ * cookie de sesión en su propio origen -- no intentamos mover el JWT entre
+ * orígenes, que sería frágil e inseguro.
+ */
+(function () {
+  "use strict";
+
+  var BACKEND = "https://solken-suscripciones.onrender.com";
+  var GOOGLE_CLIENT_ID = "766562700713-441tffpibcm3vaa0srlv8sgmfammnu4e.apps.googleusercontent.com";
+
+  function destinoDesdeUrlRemota(urlRemota) {
+    var base = (urlRemota && urlRemota.trim()) || "http://localhost:3002";
+    base = base.replace(/\/+$/, "");
+    return base + "/login?next=/agent";
+  }
+
+  // ─── Modal ────────────────────────────────────────────────────────────
+  var modalEl = null;
+
+  function cerrarModal() {
+    if (modalEl) {
+      modalEl.remove();
+      modalEl = null;
+    }
+  }
+
+  function construirModal(hrefFallback) {
+    var overlay = document.createElement("div");
+    overlay.className = "sk-login-overlay";
+    overlay.innerHTML =
+      '<div class="sk-login-modal" role="dialog" aria-label="Iniciar sesión en Solken">' +
+      '  <button type="button" class="sk-login-cerrar" aria-label="Cerrar">&times;</button>' +
+      '  <h2>Inicia sesión</h2>' +
+      '  <p class="sk-login-sub">Te llevamos a tu Solken -- en esta PC o donde lo tengas instalado.</p>' +
+      '  <div id="sk-google-btn" class="sk-google-btn"></div>' +
+      '  <div class="sk-login-divider"><span>o con correo</span></div>' +
+      '  <form id="sk-login-form" class="sk-login-form">' +
+      '    <input type="email" id="sk-login-email" placeholder="correo@ejemplo.com" required autocomplete="email">' +
+      '    <input type="password" id="sk-login-password" placeholder="Contraseña" required autocomplete="current-password">' +
+      '    <button type="submit">Continuar</button>' +
+      '  </form>' +
+      '  <p class="sk-login-err" id="sk-login-err"></p>' +
+      '  <p class="sk-login-fallback">¿Prefieres entrar directo? <a href="' + hrefFallback + '">Ir a esta PC</a></p>' +
+      "</div>";
+    return overlay;
+  }
+
+  function mostrarError(msg) {
+    var err = document.getElementById("sk-login-err");
+    if (err) {
+      err.textContent = msg;
+      err.style.display = "block";
+    }
+  }
+
+  function continuarConRespuesta(data) {
+    window.location.href = destinoDesdeUrlRemota(data.url_remota);
+  }
+
+  async function enviarLogin(url, body) {
+    try {
+      var r = await fetch(BACKEND + url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      var data = await r.json();
+      if (!r.ok) {
+        mostrarError(data.detail || data.error || "No se pudo iniciar sesión.");
+        return;
+      }
+      continuarConRespuesta(data);
+    } catch (e) {
+      mostrarError("No se pudo contactar a Solken. Intenta de nuevo o usa el enlace directo.");
+    }
+  }
+
+  function onCredentialGoogle(response) {
+    enviarLogin("/auth/login", { id_token: response.credential });
+  }
+
+  function abrirModal(hrefFallback) {
+    cerrarModal();
+    modalEl = construirModal(hrefFallback);
+    document.body.appendChild(modalEl);
+
+    modalEl.addEventListener("click", function (e) {
+      if (e.target === modalEl) cerrarModal();
+    });
+    modalEl.querySelector(".sk-login-cerrar").addEventListener("click", cerrarModal);
+
+    modalEl.querySelector("#sk-login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = document.getElementById("sk-login-email").value.trim();
+      var password = document.getElementById("sk-login-password").value;
+      enviarLogin("/auth/login-password", { email: email, password: password });
+    });
+
+    // Botón de Google: si el script de Identity Services ya cargó, lo
+    // renderizamos; si no (red lenta, bloqueador), el formulario de correo
+    // y el enlace de respaldo siguen funcionando igual.
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+      try {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: onCredentialGoogle,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById("sk-google-btn"),
+          { type: "standard", theme: "outline", size: "large", shape: "pill", width: 280 }
+        );
+      } catch (e) {
+        /* sin Google -- el formulario de correo basta */
+      }
+    }
+  }
+
+  function engancharEnlaces() {
+    var enlaces = document.querySelectorAll('a[href="http://localhost:3002/agent/"]');
+    enlaces.forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        abrirModal(a.getAttribute("href"));
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", engancharEnlaces);
+  } else {
+    engancharEnlaces();
+  }
+})();
