@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Instalar el MCP de Revit</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /*
+    Mismo plan visual que conecta-tu-ia.html (copper-on-graphite,
+    escenas auto-avanzables) para que la serie de onboarding se
+    sienta como un solo sistema. Aquí: cómo instalar solken-mcp-revit
+    y por qué Revit 2027 todavía no está disponible.
+  */
+  :root {
+    --bg:        #15130F;
+    --bg-panel:  #1C1914;
+    --fg:        #FBF7F2;
+    --fg-dim:    #C9BEB1;
+    --fg-faint:  #8C8176;
+    --copper:    #C97C4B;
+    --copper-lt: #E3A878;
+    --line:      #352F28;
+    --green:     #4CAF78;
+    --amber:     #D9A441;
+
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* ───────── top bar ───────── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    flex: 0 0 auto;
+  }
+  .wordmark { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: .02em; }
+  .wordmark span { color: var(--copper); }
+  .topbar-label {
+    font-family: var(--font-body);
+    font-size: .7rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  /* ───────── stage ───────── */
+  .stage { position: relative; flex: 1 1 auto; overflow: hidden; }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(20px, 4vh, 40px);
+    padding: 24px clamp(20px, 6vw, 80px);
+    opacity: 0;
+    transform: translateX(24px);
+    pointer-events: none;
+    transition: opacity .5s ease, transform .5s ease;
+    text-align: center;
+  }
+  .scene.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .scene.is-prev { transform: translateX(-24px); }
+
+  .scene-eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--copper-lt);
+  }
+  .scene-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    line-height: 1.15;
+    margin: 0;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .scene-title em { font-style: italic; color: var(--copper); }
+  .scene-body {
+    font-size: clamp(.95rem, 1.6vw, 1.1rem);
+    color: var(--fg-dim);
+    max-width: 54ch;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ───────── scene 0: badge gratuito/opcional ───────── */
+  .icon-badge {
+    width: 92px; height: 92px;
+    border-radius: 50%;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  .icon-badge svg { width: 38px; height: 38px; color: var(--copper); }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(201,124,75,.4); }
+    70%  { box-shadow: 0 0 0 20px rgba(201,124,75,0); }
+    100% { box-shadow: 0 0 0 0 rgba(201,124,75,0); }
+  }
+  .flow-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .flow-chip { background:var(--bg-panel); border:1px solid var(--line); border-radius:10px; padding:10px 14px; font-size:.78rem; color:var(--fg-dim); }
+  .flow-chip.is-you { border-color: var(--copper); color: var(--fg); }
+  .flow-arrow { color: var(--copper); font-size: 1rem; }
+
+  /* ───────── badges de versión (escena 2) ───────── */
+  .version-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+  .version-pill {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: var(--bg-panel);
+    border: 1px solid var(--copper);
+    color: var(--fg);
+  }
+  .version-pill.is-blocked {
+    border-color: var(--line);
+    color: var(--fg-faint);
+    position: relative;
+    opacity: .6;
+  }
+  .version-pill.is-blocked::after {
+    content: '';
+    position: absolute;
+    left: 10%; right: 10%; top: 50%;
+    height: 1px;
+    background: var(--fg-faint);
+  }
+
+  /* ───────── pasos de instalación (escenas 2-4) ───────── */
+  .step-card {
+    width: min(420px, 88vw);
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 22px 18px;
+    text-align: left;
+  }
+  .step-head { display:flex; align-items:center; gap:10px; font-size:.74rem; color:var(--fg-faint); padding-bottom:10px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  .step-dot { width:22px; height:22px; border-radius:6px; background:var(--copper); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:.72rem; color:#241208; flex-shrink:0; }
+  .step-row { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(6px); animation: rise .45s ease forwards; }
+  .step-row:last-child { border-bottom:none; }
+  .step-row:nth-child(2) { animation-delay: .15s; }
+  .step-row:nth-child(3) { animation-delay: .35s; }
+  .step-row:nth-child(4) { animation-delay: .55s; }
+  .step-check { width:18px; height:18px; border-radius:50%; background: rgba(76,175,120,.14); color: var(--green); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+  .step-check svg { width:11px; height:11px; }
+  .step-label { font-size:.86rem; color:var(--fg); line-height:1.45; }
+  .step-label code { font-size: .78rem; background: #262119; padding: 1px 6px; border-radius: 5px; color: var(--copper-lt); }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  /* ───────── scene 5: por qué 2027 no está ───────── */
+  .blocker-card {
+    width: min(460px, 88vw);
+    background: var(--bg-panel);
+    border: 1px solid var(--amber);
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-align: left;
+  }
+  .blocker-head { display:flex; align-items:center; gap:10px; margin-bottom: 10px; }
+  .blocker-icon { width:30px; height:30px; border-radius:50%; background: rgba(217,164,65,.14); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .blocker-icon svg { width:16px; height:16px; color: var(--amber); }
+  .blocker-title { font-size: .86rem; font-weight: 600; color: var(--fg); }
+  .blocker-body { font-size: .8rem; color: var(--fg-dim); line-height: 1.55; margin: 0; }
+  .blocker-body code { font-size: .74rem; background: #262119; padding: 1px 6px; border-radius: 5px; color: var(--copper-lt); }
+
+  /* ───────── scene 6: cta ───────── */
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .cta-btn {
+    font-size: .9rem; font-weight: 600; padding: 12px 22px;
+    border-radius: 999px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .cta-btn--primary { background: var(--copper); color: #241208; }
+  .cta-btn--ghost { border: 1px solid var(--line); color: var(--fg); }
+
+  /* ───────── controls ───────── */
+  .controls { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 16px 20px 22px; }
+  .ctrl-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg-panel); color: var(--fg); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .ctrl-btn:hover { border-color: var(--copper); }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); cursor: pointer; border: none; padding: 0; transition: background .2s, transform .2s; }
+  .dot.is-on { background: var(--copper); transform: scale(1.3); }
+
+  .play-overlay {
+    position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--copper); color: #241208; border: none; border-radius: 999px;
+    padding: 12px 22px; font-family: var(--font-body); font-size: .88rem; font-weight: 600;
+    cursor: pointer; z-index: 20; box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  }
+  .play-overlay-icon { width: 26px; height: 26px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+  #muteBtn.is-muted { border-color: var(--copper); color: var(--copper-lt); }
+
+  @media (max-width: 480px) { .version-row { gap: 8px; } }
+
+  /* embebido en un iframe bajo: comprime todo verticalmente */
+  @media (max-height: 680px) {
+    .stage { padding-block: 10px; }
+    .scene { gap: clamp(10px, 2.2vh, 20px); padding-block: 10px; }
+    .scene-title { font-size: clamp(1.25rem, 3.2vw, 1.9rem); margin: 0; }
+    .scene-body { font-size: .85rem; }
+    .step-card { padding: 14px 14px 12px; }
+    .blocker-card { padding: 14px 16px; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+  <div class="topbar">
+    <span class="wordmark">Sol<span>k</span>en</span>
+    <span class="topbar-label">Instalar el MCP de Revit</span>
+  </div>
+
+  <div class="stage" id="stage">
+
+    <!-- SCENE 0 -->
+    <section class="scene" data-scene="0">
+      <p class="scene-eyebrow">Una herramienta opcional</p>
+      <h1 class="scene-title">Conecta <em>cualquier cliente MCP</em> directo a tu modelo de Revit</h1>
+      <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
+      <p class="scene-body">Si usas Claude, Cursor u otro cliente MCP además de Solken Agent, <code>solken-mcp-revit</code> es un complemento gratuito y de código abierto que conecta ese cliente directamente con tu modelo de Revit.</p>
+    </section>
+
+    <!-- SCENE 1 -->
+    <section class="scene" data-scene="1">
+      <p class="scene-eyebrow">Qué hace y qué no</p>
+      <h1 class="scene-title">Solo <em>lee</em> tu modelo — no escribe nada por su cuenta</h1>
+      <div class="flow-row">
+        <div class="flow-chip is-you">Tu modelo Revit</div>
+        <span class="flow-arrow">→</span>
+        <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-chip">Tu cliente de IA</div>
+      </div>
+      <p class="scene-body">Es de código abierto, no toca tu modelo ni modifica nada por su cuenta: solo lee lo que ya tienes en Revit y se lo entrega a tu cliente de IA. Instalarlo toma menos de cinco minutos y no necesitas permisos de administrador.</p>
+    </section>
+
+    <!-- SCENE 2 -->
+    <section class="scene" data-scene="2">
+      <p class="scene-eyebrow">Paso 1</p>
+      <h1 class="scene-title">Descarga el <em>.zip</em> de tu versión de Revit</h1>
+      <div class="version-row">
+        <span class="version-pill">2024</span>
+        <span class="version-pill">2025</span>
+        <span class="version-pill">2026</span>
+        <span class="version-pill is-blocked">2027</span>
+      </div>
+      <p class="scene-body">Hay un .zip independiente por versión. Solo necesitas descargar el que corresponde a tu instalación: 2024, 2025 o 2026.</p>
+    </section>
+
+    <!-- SCENE 3 -->
+    <section class="scene" data-scene="3">
+      <p class="scene-eyebrow">Paso 2</p>
+      <h1 class="scene-title">Extrae el .zip en tu carpeta de complementos</h1>
+      <div class="step-card">
+        <div class="step-head"><span class="step-dot">2</span> AddIns de Revit</div>
+        <div class="step-row">
+          <span class="step-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span class="step-label">Extrae el contenido del .zip en <code>%appdata%\Autodesk\Revit\Addins\</code></span>
+        </div>
+        <div class="step-row">
+          <span class="step-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span class="step-label">Es tu propio usuario de Windows — ninguna carpeta del sistema se toca</span>
+        </div>
+      </div>
+      <p class="scene-body">No hace falta ser administrador del equipo: todo vive dentro de tu carpeta de usuario.</p>
+    </section>
+
+    <!-- SCENE 4 -->
+    <section class="scene" data-scene="4">
+      <p class="scene-eyebrow">Paso 3</p>
+      <h1 class="scene-title">Abre Revit y <em>actívalo</em></h1>
+      <div class="step-card">
+        <div class="step-head"><span class="step-dot">3</span> Primer arranque</div>
+        <div class="step-row">
+          <span class="step-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span class="step-label">Revit pedirá confirmar el complemento: elige <code>Always Load</code></span>
+        </div>
+        <div class="step-row">
+          <span class="step-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span class="step-label">En el panel de <code>Add-Ins</code>, activa los comandos que quieras usar</span>
+        </div>
+        <div class="step-row">
+          <span class="step-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span class="step-label">Guarda — listo, ya está conectado</span>
+        </div>
+      </div>
+      <p class="scene-body">Son tres clics. No hay nada más que configurar.</p>
+    </section>
+
+    <!-- SCENE 5: por qué 2027 no está -->
+    <section class="scene" data-scene="5">
+      <p class="scene-eyebrow">Con honestidad</p>
+      <h1 class="scene-title">¿Por qué <em>Revit 2027</em> no está en la lista?</h1>
+      <div class="blocker-card">
+        <div class="blocker-head">
+          <span class="blocker-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L2.7 17.1a1.8 1.8 0 001.56 2.7h15.5a1.8 1.8 0 001.56-2.7L13.7 3.9a1.8 1.8 0 00-3.4 0z"/></svg></span>
+          <span class="blocker-title">No es un descuido — es un bloqueo técnico real</span>
+        </div>
+        <p class="blocker-body">Revit 2027 cambió una pieza interna de su API, y eso rompe la forma en que más de 30 comandos del complemento esperan comunicarse con él. No es un ajuste superficial, y Autodesk tampoco ha publicado todavía el paquete que lo resolvería del todo.</p>
+      </div>
+      <p class="scene-body">Preferimos decírtelo con claridad a prometer una fecha que no podemos cumplir. En cuanto se resuelva, 2027 se suma a la lista de versiones soportadas.</p>
+    </section>
+
+    <!-- SCENE 6 -->
+    <section class="scene" data-scene="6">
+      <p class="scene-eyebrow">Empieza hoy</p>
+      <h1 class="scene-title">Descarga tu versión y <em>conéctate</em></h1>
+      <p class="scene-body">Descarga el .zip de tu versión de Revit desde la página de Solken y empieza a trabajar con tu modelo directamente desde tu cliente de IA favorito.</p>
+      <div class="cta-row">
+        <a class="cta-btn cta-btn--primary" href="https://solkenbim.com/servicios.html" target="_blank" rel="noopener">Ver descargas por versión</a>
+        <a class="cta-btn cta-btn--ghost" href="https://github.com/Solken-bim-mx/solken-mcp-revit#quick-start-using-a-release" target="_blank" rel="noopener">Guía de instalación</a>
+      </div>
+    </section>
+
+    <audio id="aud0" preload="auto" src="assets/audio/instalar-mcp-revit-0.mp3"></audio>
+    <audio id="aud1" preload="auto" src="assets/audio/instalar-mcp-revit-1.mp3"></audio>
+    <audio id="aud2" preload="auto" src="assets/audio/instalar-mcp-revit-2.mp3"></audio>
+    <audio id="aud3" preload="auto" src="assets/audio/instalar-mcp-revit-3.mp3"></audio>
+    <audio id="aud4" preload="auto" src="assets/audio/instalar-mcp-revit-4.mp3"></audio>
+    <audio id="aud5" preload="auto" src="assets/audio/instalar-mcp-revit-5.mp3"></audio>
+  </div>
+
+  <button class="play-overlay" id="playOverlay" type="button">
+    <span class="play-overlay-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5z" fill="#241208"/></svg>
+    </span>
+    Reproducir con narración
+  </button>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="muteBtn" aria-label="Silenciar narración">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 8a5 5 0 010 8M20 5a9 9 0 010 14" stroke-linecap="round"/></svg>
+    </button>
+    <button class="ctrl-btn" id="pauseBtn" aria-label="Pausar">
+      <svg id="pauseIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>
+      <svg id="playIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M7 4.5v15l12-7.5z"/></svg>
+    </button>
+    <button class="ctrl-btn" id="prevBtn" aria-label="Escena anterior">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L4 8l6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="dots" id="dots"></div>
+    <button class="ctrl-btn" id="nextBtn" aria-label="Siguiente escena">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l6 5-6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+<script>
+  (function () {
+    var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+    var dotsWrap = document.getElementById('dots');
+    var overlay = document.getElementById('playOverlay');
+    var muteBtn = document.getElementById('muteBtn');
+    var pauseBtn = document.getElementById('pauseBtn');
+    var pauseIcon = document.getElementById('pauseIcon');
+    var playIcon = document.getElementById('playIcon');
+    var current = 0;
+    var FALLBACK_MS = 7000;
+    var fallbackTimer = null;
+    var narrating = false;
+    var muted = false;
+    var paused = false;
+
+    var audios = [];
+    for (var i = 0; i < scenes.length; i++) {
+      audios.push(document.getElementById('aud' + i));
+    }
+
+    scenes.forEach(function (_, i) {
+      var d = document.createElement('button');
+      d.className = 'dot';
+      d.setAttribute('aria-label', 'Ir a escena ' + (i + 1));
+      d.addEventListener('click', function () { goTo(i); });
+      dotsWrap.appendChild(d);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    function render() {
+      scenes.forEach(function (s, i) {
+        s.classList.toggle('is-active', i === current);
+        s.classList.toggle('is-prev', i < current);
+      });
+      dots.forEach(function (d, i) { d.classList.toggle('is-on', i === current); });
+      var active = scenes[current];
+      active.querySelectorAll('[style*="animation"], .step-row, .provider-card').forEach(function (el) {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      });
+    }
+
+    function stopAllAudio() {
+      audios.forEach(function (a) { if (!a) return; a.pause(); a.currentTime = 0; });
+    }
+
+    function clearFallback() { if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; } }
+
+    function playCurrent() {
+      clearFallback();
+      if (paused) return;
+      var a = audios[current];
+      if (narrating && a) {
+        a.muted = muted;
+        a.currentTime = 0;
+        var p = a.play();
+        if (p && p.catch) p.catch(function () { fallbackTimer = setTimeout(next, FALLBACK_MS); });
+      } else {
+        fallbackTimer = setTimeout(next, FALLBACK_MS);
+      }
+    }
+
+    function goTo(i) {
+      stopAllAudio();
+      current = (i + scenes.length) % scenes.length;
+      render();
+      playCurrent();
+    }
+
+    function setPaused(shouldPause) {
+      paused = shouldPause;
+      pauseIcon.style.display = paused ? 'none' : '';
+      playIcon.style.display = paused ? '' : 'none';
+      pauseBtn.setAttribute('aria-label', paused ? 'Reanudar' : 'Pausar');
+      var a = audios[current];
+      if (paused) {
+        clearFallback();
+        if (a) a.pause();
+      } else {
+        if (narrating && a && a.currentTime > 0 && !a.ended) {
+          var p = a.play();
+          if (p && p.catch) p.catch(function () { fallbackTimer = setTimeout(next, FALLBACK_MS); });
+        } else {
+          playCurrent();
+        }
+      }
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    audios.forEach(function (a, i) {
+      if (!a) return;
+      a.addEventListener('ended', function () { if (i === current) next(); });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    overlay.addEventListener('click', function () {
+      narrating = true;
+      overlay.style.display = 'none';
+      playCurrent();
+    });
+
+    muteBtn.addEventListener('click', function () {
+      muted = !muted;
+      muteBtn.classList.toggle('is-muted', muted);
+      var a = audios[current];
+      if (a) a.muted = muted;
+    });
+
+    pauseBtn.addEventListener('click', function () { setPaused(!paused); });
+
+    render();
+    playCurrent();
+  })();
+</script>
+
+</body>
+</html>
