@@ -15,6 +15,18 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:url" content="https://solkenbim.com/" />
 
+  <!-- GitHub Pages sirve /index.html como alias de / sin redirect de servidor.
+       Esto normaliza la URL en el navegador para evitar contenido duplicado
+       (ver reporte "Duplicada: el usuario no ha indicado ninguna versión
+       canónica" en Search Console, 2026-11-26). El <link rel="canonical">
+       de arriba ya resuelve la señal para Google; este script es un
+       refuerzo client-side para quien llegue directo a /index.html. -->
+  <script>
+    if (window.location.pathname.replace(/\/+$/, '').endsWith('/index.html')) {
+      window.history.replaceState(null, '', '/');
+    }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -185,6 +197,7 @@
   </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="/js/acceso-remoto.js" defer></script>
+  <link rel="canonical" href="https://solkenbim.com/" />
 </head>
 <body class="selector-body">
 
